@@ -17,7 +17,8 @@ public class StartResizableTest {
     @Parameterized.Parameters
     public static Collection<Object[]> testClasses() {
         return Arrays.asList(new Object[][]{
-                {(StartResizableFactory) LinkedList::new}
+                {(StartResizableFactory) LinkedList::new},
+                {(StartResizableFactory) DoublyLinkedList::new}
         });
     }
 

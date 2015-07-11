@@ -50,3 +50,15 @@ Features:
 * traversable
 
 The efficient add / remove at the beginning means it can be used as a stack.
+
+
+## Doubly linked list
+
+By storing node pointers in both directions a doubly linked list is traversable in both directions and can be insert / 
+remove efficiently from both the beginning and the end. Often sentinel nodes are used as a terminal to simplify insertion.
+
+Features:
+* as linked list but searches can begin from the end too
+
+Inserting at one end and removing from the other means doubly linked lists can be used as a queue.
+

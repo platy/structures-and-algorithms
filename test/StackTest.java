@@ -18,7 +18,9 @@ public class StackTest {
     public static Collection<Object[]> testClasses() {
         return Arrays.asList(new Object[][]{
                 {(StackFactory) StackTest::dynamicArrayStack},
-                {(StackFactory) StackTest::linkedListStack}
+                {(StackFactory) StackTest::linkedListStack},
+                {(StackFactory) StackTest::doubleLinkedForwardStack},
+                {(StackFactory) StackTest::doublyLinkedBackwardStack}
         });
     }
 
@@ -28,6 +30,14 @@ public class StackTest {
 
     static <T> Stack<T> linkedListStack() {
         return Stacks.fromStartResizable(new LinkedList<>());
+    }
+
+    static <T> Stack<T> doubleLinkedForwardStack() {
+        return Stacks.fromStartResizable(new DoublyLinkedList<T>());
+    }
+
+    static <T> Stack<T> doublyLinkedBackwardStack() {
+        return Stacks.fromEndResizable(new DoublyLinkedList<T>());
     }
 
     @Test

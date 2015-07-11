@@ -17,8 +17,13 @@ public class EndResizableTest {
     @Parameterized.Parameters
     public static Collection<Object[]> testClasses() {
         return Arrays.asList(new Object[][]{
-                {(EndResizableFactory) DynamicArray::newDefault}
+                {(EndResizableFactory) EndResizableTest::newDynamicArray},
+                {(EndResizableFactory) DoublyLinkedList::new}
         });
+    }
+
+    private static <T> DynamicArray<T> newDynamicArray() {
+        return DynamicArray.newDefault(0);
     }
 
     @Test
@@ -38,10 +43,10 @@ public class EndResizableTest {
     }
 
     public EndResizableTest(EndResizableFactory constructor) {
-        structure = constructor.create(0);
+        structure = constructor.create();
     }
 
     private interface EndResizableFactory {
-        <T> EndResizable<T> create(int length);
+        <T> EndResizable<T> create();
     }
 }
