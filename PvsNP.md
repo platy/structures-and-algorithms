@@ -57,3 +57,5 @@ Those NP-hard problems which are also NP are NP-complete.
 
 
 Something about verification being P for NP-complete problems.
+
+What are decision problems? What can be expressed as a decision?

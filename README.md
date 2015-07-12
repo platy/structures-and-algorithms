@@ -84,6 +84,23 @@ Features:
 * searchable O(log n) average
 * sorted inserts O(log n) average
 * can be used to form a double ended priority queue
+* Worst case shape has O(n) operations
 
-### Self-balancing binary search tree
 
+### Red-black self-balancing binary search tree
+
+In order to self-balance a binary search tree, this structure contains 1 extra bit of data per node, which is whether 
+the node is red or black. In some implementations no extra memory is required over the BST.
+
+Rules:
+* the root is black
+* all leaves are black
+* every red node must have 2 black children and therefore must have a black parent
+* every path from a node to its descendant leaf nodes must contain the same number of black nodes 
+
+The last 2 rules mean that the longest path can be twice the length of the shortest path as the shortest path as they 
+both have the same number of blacks and cannot have 2 consecutive reds.
+
+Features:
+* All of the binary search tree
+* Maintains balance so the worst case shape of the tree still has O(log n) operations

@@ -1,6 +1,6 @@
 import java.util.NoSuchElementException;
 
-public class DoublyLinkedList<T> implements StartResizable<T>, EndResizable<T> {
+public class DoublyLinkedList<T> implements StartResizable<T>, EndResizable<T>, ForwardTraversable<T> {
     // list is linked circularly with a single sentinel node, this simplifies the operations as they don't need so many
     // special cases at the ends
     private final Node terminator;
@@ -62,6 +62,24 @@ public class DoublyLinkedList<T> implements StartResizable<T>, EndResizable<T> {
 
     private boolean isEmpty() {
         return terminator.next == terminator || terminator.prev == terminator;
+    }
+
+    @Override
+    public ForwardTraverser<T> traverser() {
+        return new ForwardTraverser<T>() {
+            Node current = terminator.next;
+            @Override
+            public T next() {
+                T next = current.elem;
+                current = current.next;
+                return next;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return current != terminator;
+            }
+        };
     }
 
     private class Node {
