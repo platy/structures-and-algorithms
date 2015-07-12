@@ -1,3 +1,5 @@
+import java.util.function.Function;
+
 public class BinaryTree<T> implements Set<T> {
     private Node root = null;
     private final Comparator<T> comparator;
@@ -18,26 +20,13 @@ public class BinaryTree<T> implements Set<T> {
     @Override
     public T remove(T elem) {
         if (root != null) {
-            T existingElem = root.key;
-            int compare = comparator.compare(elem, existingElem);
-            if (compare == 0) {
-                if (root.right != null && root.left != null) {
-                    throw new RuntimeException("this is the difficult case");
-                } else if (root.right != null) {
-                    root = root.right;
-                } else if (root.left != null) {
-                    root = root.left;
-                } else {
-                    root = null;
-                }
-                return elem;
-            } else if (compare > 0 && root.right != null) {
-                return root.removeRight(elem);
-            } else if (root.left != null) {
-                return root.removeLeft(elem);
-            }
+            return root.remove(elem, newRoot -> {
+                root = newRoot;
+                return null;
+            });
+        } else {
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -92,55 +81,32 @@ public class BinaryTree<T> implements Set<T> {
             }
         }
 
-        private Node onlyChild() {
-            if (left != null && right != null) {
-                throw new IllegalStateException("this node is not an only child");
-            } else if (left == null) {
-                return right;
-            } else {
-                return left;
-            }
-        }
-
-        public T removeRight(T elem) {
-            T existingElem = right.key;
+        public T remove(T elem, Function<Node, Void> replaceSelf) {
+            T existingElem = key;
             int compare = comparator.compare(elem, existingElem);
             if (compare == 0) {
-                if (right.right != null && right.left != null) {
+                if (right != null && left != null) {
                     throw new RuntimeException("this is the difficult case");
-                } else if (right.right != null) {
-                    right = right.right;
-                } else if (right.left != null) {
-                    right = right.left;
+                } else if (right != null) {
+                    replaceSelf.apply(right);
+                } else if (left != null) {
+                    replaceSelf.apply(left);
                 } else {
-                    right = null;
+                    replaceSelf.apply(null);
                 }
                 return existingElem;
-            } else if (compare > 0) {
-                return right.removeRight(elem);
+            } else if (compare > 0 && right != null) {
+                return right.remove(elem, newRight -> {
+                    right = newRight;
+                    return null;
+                });
+            } else if (left != null) {
+                return left.remove(elem, newLeft -> {
+                    left = newLeft;
+                    return null;
+                });
             } else {
-                return right.removeLeft(elem);
-            }
-        }
-
-        public T removeLeft(T elem) {
-            T existingElem = left.key;
-            int compare = comparator.compare(elem, existingElem);
-            if (compare == 0) {
-                if (left.right != null && left.left != null) {
-                    throw new RuntimeException("this is the difficult case");
-                } else if (left.right != null) {
-                    left = left.right;
-                } else if (left.left != null) {
-                    left = left.left;
-                } else {
-                    left = null;
-                }
-                return existingElem;
-            } else if (compare > 0) {
-                return left.removeRight(elem);
-            } else {
-                return left.removeLeft(elem);
+                return null;
             }
         }
     }
