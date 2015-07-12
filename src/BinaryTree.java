@@ -1,5 +1,13 @@
 import java.util.function.Function;
 
+/**
+ * Implementation issues:
+ * * In some places this uses recursive algorithms which could be a problem for large trees - as java deos not have tail
+ * call optimisation.
+ * * The removal of a node with 2 children is solved by replacing it with its successor, a lot of removals around the
+ * same region could unbalance the tree
+ * @param <T>
+ */
 public class BinaryTree<T> implements Set<T> {
     private Node root = null;
     private final Comparator<T> comparator;
@@ -86,7 +94,14 @@ public class BinaryTree<T> implements Set<T> {
             int compare = comparator.compare(elem, existingElem);
             if (compare == 0) {
                 if (right != null && left != null) {
-                    throw new RuntimeException("this is the difficult case");
+                    // here the key could be replaced by either the successor or the predecessor,
+                    // always doing the same thing could lead to an imbalanced tree
+                    Node successor = right.findMin();
+                    key = successor.key;
+                    right.remove(key, newRight -> {
+                        right = newRight;
+                        return null;
+                    });
                 } else if (right != null) {
                     replaceSelf.apply(right);
                 } else if (left != null) {
@@ -107,6 +122,14 @@ public class BinaryTree<T> implements Set<T> {
                 });
             } else {
                 return null;
+            }
+        }
+
+        private Node findMin() {
+            if (left != null) {
+                return left.findMin();
+            } else {
+                return this;
             }
         }
     }
