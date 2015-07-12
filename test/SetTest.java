@@ -17,8 +17,13 @@ public class SetTest {
     public static Collection<Object[]> testClasses() {
         return Arrays.asList(new Object[][]{
                 {(SetFactory) BinaryTree::newWithJavaNaturalComparator},
-                {(SetFactory) SetTest::newSetFromLinkedList}
+                {(SetFactory) SetTest::newSetFromLinkedList},
+                {(SetFactory) SetTest::newHashSet}
         });
+    }
+
+    private static Set<String> newHashSet() {
+        return new HashSet<>(4, String::hashCode, SetTest::newSetFromLinkedList);
     }
 
     private static Set<String> newSetFromLinkedList() {
