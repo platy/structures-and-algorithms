@@ -87,7 +87,7 @@ Features:
 * Worst case shape has O(n) operations
 
 
-### Red-black self-balancing binary search tree
+## Red-black self-balancing binary search tree
 
 In order to self-balance a binary search tree, this structure contains 1 extra bit of data per node, which is whether 
 the node is red or black. In some implementations no extra memory is required over the BST.
@@ -104,3 +104,12 @@ both have the same number of blacks and cannot have 2 consecutive reds.
 Features:
 * All of the binary search tree
 * Maintains balance so the worst case shape of the tree still has O(log n) operations
+
+
+## HashTable
+
+A hashtable consists of a linear data structure of buckets. A hash function is used to choose which bucket a key should 
+be placed in / searched for in. Typically a hash is generated and the modulo of it with the number of buckets is taken.
+Several entries could have the same hash and so some form of collision handling is necessary, a typical method is to 
+have a linked list in the bucket. Collisions slow the HashSet so ideally there wont be any, though making the hashtable
+large enough to avoid them causes memory to be wasted.

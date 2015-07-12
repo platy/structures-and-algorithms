@@ -18,12 +18,17 @@ public class SetTest {
         return Arrays.asList(new Object[][]{
                 {(SetFactory) BinaryTree::newWithJavaNaturalComparator},
                 {(SetFactory) SetTest::newSetFromLinkedList},
-                {(SetFactory) SetTest::newHashSet}
+                {(SetFactory) SetTest::newSmallHashSet},
+                {(SetFactory) SetTest::newLargeHashSet}
         });
     }
 
-    private static Set<String> newHashSet() {
-        return new HashSet<>(4, String::hashCode, SetTest::newSetFromLinkedList);
+    private static Set<String> newSmallHashSet() {
+        return new HashSet<>(1, String::hashCode, SetTest::newSetFromLinkedList);
+    }
+
+    private static Set<String> newLargeHashSet() {
+        return new HashSet<>(60, String::hashCode, SetTest::newSetFromLinkedList);
     }
 
     private static Set<String> newSetFromLinkedList() {
