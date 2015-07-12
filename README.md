@@ -1,5 +1,10 @@
 # Data Structures
 
+General guidance:
+* No UnsupportedOperationExceptions
+* No attempt to support nulls in collections
+* No using the library
+
 ## Array
 
 Probably the most basic data structure, the array is instantiated to a fixed length by allocating 
@@ -61,4 +66,24 @@ Features:
 * as linked list but searches can begin from the end too
 
 Inserting at one end and removing from the other means doubly linked lists can be used as a queue.
+
+
+## Binary search tree
+
+Trees enable searching, inserting and deleting of ordered keys in a reasonable time. Whereas list inserts and deletes
+are generally O(n) and a binary search is generally O(log n) (with and indexable list). Binary tree inserts, deletes and 
+searches are all on average O(log n) with O(n) as the worst case. The first element inserted is the root of the tree 
+with the greater elements added afterwards creating a subtree to the right and the lesser elements creating a subtree to 
+the left. This means that the shape of the tree is dependant on the order in which the elements are added. The worst
+case is if they are added in sorted order, in which case the tree resembles a linked list. After random insertion / 
+deletion the tree height (and therefore the worst case search for a random tree) approaches sqrt(n), which grows much 
+faster than the optimum height of log(n).
+
+Features:
+* traversable in order from any searched element
+* searchable O(log n) average
+* sorted inserts O(log n) average
+* can be used to form a double ended priority queue
+
+### Self-balancing binary search tree
 
