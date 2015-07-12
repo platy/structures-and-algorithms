@@ -29,14 +29,14 @@ public class DoublyLinkedList<T> implements StartResizable<T>, EndResizable<T> {
 
     @Override
     public T getLast() {
-        checkNotEmpty();
+        if (isEmpty()) return null;
         return terminator.prev.elem;
     }
 
     /** Gets the first element in the list O(1) */
     @Override
-    public T getFirst() throws NoSuchElementException{
-        checkNotEmpty();
+    public T getFirst() {
+        if (isEmpty()) return null;
         return terminator.next.elem;
     }
 
@@ -57,7 +57,11 @@ public class DoublyLinkedList<T> implements StartResizable<T>, EndResizable<T> {
     }
 
     private void checkNotEmpty() {
-        if(terminator.next == terminator || terminator.prev == terminator) throw new NoSuchElementException("List is empty");
+        if(isEmpty()) throw new NoSuchElementException("List is empty");
+    }
+
+    private boolean isEmpty() {
+        return terminator.next == terminator || terminator.prev == terminator;
     }
 
     private class Node {

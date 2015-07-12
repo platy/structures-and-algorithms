@@ -6,6 +6,7 @@ import java.util.function.Function;
  * call optimisation.
  * * The removal of a node with 2 children is solved by replacing it with its successor, a lot of removals around the
  * same region could unbalance the tree
+ * * Doesn't correctly remove when there are equal keys in the tree
  * @param <T>
  */
 public class BinaryTree<T> implements Set<T> {
@@ -50,16 +51,32 @@ public class BinaryTree<T> implements Set<T> {
         return new BinaryTree<>(Comparable::compareTo);
     }
 
+    public T findMin() {
+        if (root == null) {
+            return null;
+        } else {
+            return root.findMin();
+        }
+    }
+
+    public T findMax() {
+        if (root == null) {
+            return null;
+        } else {
+            return root.findMax();
+        }
+    }
+
     private class Node {
         Node left;
         T key;
         Node right;
 
-        public Node(T key) {
+        Node(T key) {
             this.key = key;
         }
 
-        public void insert(T elem) {
+        void insert(T elem) {
             int compare = comparator.compare(elem, key);
             if (compare < 0) { // this is slightly right biased as new keys which are equal to one already there will go to the right
                 if (left == null) {
@@ -76,7 +93,7 @@ public class BinaryTree<T> implements Set<T> {
             }
         }
 
-        public T lookup(T elem) {
+        T lookup(T elem) {
             int compare = comparator.compare(elem, key);
             if (compare == 0) {
                 return key;
@@ -89,15 +106,14 @@ public class BinaryTree<T> implements Set<T> {
             }
         }
 
-        public T remove(T elem, Function<Node, Void> replaceSelf) {
+        T remove(T elem, Function<Node, Void> replaceSelf) {
             T existingElem = key;
             int compare = comparator.compare(elem, existingElem);
             if (compare == 0) {
                 if (right != null && left != null) {
                     // here the key could be replaced by either the successor or the predecessor,
                     // always doing the same thing could lead to an imbalanced tree
-                    Node successor = right.findMin();
-                    key = successor.key;
+                    key = right.findMin();
                     right.remove(key, newRight -> {
                         right = newRight;
                         return null;
@@ -125,11 +141,19 @@ public class BinaryTree<T> implements Set<T> {
             }
         }
 
-        private Node findMin() {
+        T findMin() {
             if (left != null) {
                 return left.findMin();
             } else {
-                return this;
+                return key;
+            }
+        }
+
+        T findMax() {
+            if (right != null) {
+                return right.findMax();
+            } else {
+                return key;
             }
         }
     }

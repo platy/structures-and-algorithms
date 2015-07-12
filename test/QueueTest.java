@@ -4,9 +4,9 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
@@ -30,9 +30,9 @@ public class QueueTest {
         assertThat(structure.dequeue(), is("last element"));
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void testDequeueOnEmpty() throws Exception {
-        structure.dequeue();
+        assertThat(structure.dequeue(), is(nullValue()));
     }
 
     public QueueTest(QueueFactory constructor) {

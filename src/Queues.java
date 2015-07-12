@@ -11,7 +11,9 @@ public class Queues {
             @Override
             public T dequeue() {
                 T last = list.getLast();
-                list.removeLast();
+                if (last != null) {
+                    list.removeLast();
+                }
                 return last;
             }
         };
@@ -28,7 +30,9 @@ public class Queues {
             @Override
             public T dequeue() {
                 T first = list.getFirst();
-                list.removeFirst();
+                if (first != null) {
+                    list.removeFirst();
+                }
                 return first;
             }
         };
