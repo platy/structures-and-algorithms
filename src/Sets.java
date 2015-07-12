@@ -1,9 +1,7 @@
-import java.util.function.BiPredicate;
-import java.util.function.Function;
 
 public class Sets {
 
-    public static <T> Set<T> newSetFromLinkedList(BiPredicate<T, T> equalityFunction) {
+    public static <T> Set<T> newSetFromLinkedList(EqualityFunction<T> equalityFunction) {
         return new Set<T>(){
             LinkedList<T> list = new LinkedList<>();
             @Override
@@ -12,7 +10,7 @@ public class Sets {
                 T current;
                 while (traverser.hasNext()) {
                     current = traverser.next();
-                    if(equalityFunction.test(current, elem)) {
+                    if(equalityFunction.equal(current, elem)) {
                         return current;
                     }
                 }
@@ -25,7 +23,7 @@ public class Sets {
                 T current;
                 while (traverser.hasNext()) {
                     current = traverser.next();
-                    if(equalityFunction.test(current, elem)) {
+                    if(equalityFunction.equal(current, elem)) {
                         traverser.remove();
                         return current;
                     }
