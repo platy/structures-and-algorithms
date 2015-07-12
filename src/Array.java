@@ -3,7 +3,7 @@
  * which use arrays, also so that consistent interfaces can be added.
  * @param <T>
  */
-public class Array<T> implements IndexedMutableStructure<T> {
+public class Array<T> implements Indexed<T> {
     private Object[] underlying;
 
     public Array(int length) {

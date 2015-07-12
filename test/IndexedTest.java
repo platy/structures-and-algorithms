@@ -4,15 +4,14 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(Parameterized.class)
-public class IndexedMutableStructureTest {
+public class IndexedTest {
 
-    private final IndexedMutableStructure<String> structure;
+    private final Indexed<String> structure;
 
     @Parameterized.Parameters
     public static Collection<Object[]> testClasses() {
@@ -46,11 +45,11 @@ public class IndexedMutableStructureTest {
         structure.get(4);
     }
 
-    public IndexedMutableStructureTest(IndexedMutableStructureFactory constructor) {
+    public IndexedTest(IndexedMutableStructureFactory constructor) {
         structure = constructor.create(4);
     }
 
     private interface IndexedMutableStructureFactory {
-        <T> IndexedMutableStructure<T> create(int length);
+        <T> Indexed<T> create(int length);
     }
 }

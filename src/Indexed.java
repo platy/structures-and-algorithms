@@ -1,4 +1,4 @@
-public interface IndexedMutableStructure<T> {
+public interface Indexed<T> {
     T get(int index);
 
     void set(int index, T item);

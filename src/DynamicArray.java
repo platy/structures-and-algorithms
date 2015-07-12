@@ -1,6 +1,6 @@
 import java.util.NoSuchElementException;
 
-public class DynamicArray<T> implements IndexedMutableStructure<T>, EndResizable<T> {
+public class DynamicArray<T> implements Indexed<T>, EndResizable<T> {
     private final GrowAlgorithm growAlgorithm;
     private Array<T> underlying;
     private int length = 0;
