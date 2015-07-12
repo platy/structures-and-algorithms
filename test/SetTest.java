@@ -4,7 +4,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -17,8 +16,13 @@ public class SetTest {
     @Parameterized.Parameters
     public static Collection<Object[]> testClasses() {
         return Arrays.asList(new Object[][]{
-                {(SetFactory) BinaryTree::newWithJavaNaturalComparator}
+                {(SetFactory) BinaryTree::newWithJavaNaturalComparator},
+                {(SetFactory) SetTest::newSetFromLinkedList}
         });
+    }
+
+    private static Set<String> newSetFromLinkedList() {
+        return Sets.newSetFromLinkedList(String::equals);
     }
 
     @Test

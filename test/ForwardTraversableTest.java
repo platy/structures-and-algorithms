@@ -51,6 +51,24 @@ public class ForwardTraversableTest {
         assertThat(traverser.hasNext(), is(false));
     }
 
+    @Test
+    public void testRemoval() throws Exception {
+        ForwardTraverser<String> traverser = structure.traverser();
+
+        assertThat(traverser.hasNext(), is(true));
+        assertThat(traverser.next(), is("a"));
+        traverser.remove();
+        assertThat(traverser.hasNext(), is(true));
+        assertThat(traverser.next(), is("b"));
+        traverser.remove();
+        assertThat(traverser.hasNext(), is(true));
+        assertThat(traverser.next(), is("c"));
+        traverser.remove();
+        assertThat(traverser.hasNext(), is(false));
+
+        assertThat(structure.traverser().hasNext(), is(false));
+    }
+
     public ForwardTraversableTest(ForwardTraversableFactory constructor) {
         structure = constructor.create();
     }

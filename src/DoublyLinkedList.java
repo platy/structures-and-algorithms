@@ -67,17 +67,24 @@ public class DoublyLinkedList<T> implements StartResizable<T>, EndResizable<T>, 
     @Override
     public ForwardTraverser<T> traverser() {
         return new ForwardTraverser<T>() {
-            Node current = terminator.next;
+            Node previous;
+            Node current = terminator;
             @Override
             public T next() {
-                T next = current.elem;
+                previous = current;
                 current = current.next;
-                return next;
+                return current.elem;
             }
 
             @Override
             public boolean hasNext() {
-                return current != terminator;
+                return current.next != terminator;
+            }
+
+            @Override
+            public void remove() {
+                previous.next = current.next;
+                current = previous;
             }
         };
     }

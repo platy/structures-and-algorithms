@@ -1,44 +1,52 @@
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 public class LinkedList<T> implements StartResizable<T>, ForwardTraversable<T> {
-    private Node list = null;
+    private final Node terminator = new Node(null, null);
 
     /** Gets the first element in the list O(1) */
     @Override
     public T getFirst() throws NoSuchElementException{
         checkNotEmpty();
-        return list.head;
+        return terminator.tail.head;
     }
 
     @Override
     public void removeFirst() throws NoSuchElementException {
         checkNotEmpty();
-        list = list.tail;
+        terminator.tail = terminator.tail.tail;
     }
 
     @Override
     public void addFirst(T element) {
-        list = new Node(element, list);
+        terminator.tail = new Node(element, terminator.tail);
     }
 
     private void checkNotEmpty() {
-        if(list == null) throw new NoSuchElementException("List is empty");
+        if(terminator.tail == null) throw new NoSuchElementException("List is empty");
     }
 
     @Override
     public ForwardTraverser<T> traverser() {
         return new ForwardTraverser<T>() {
-            Node current = list;
+            Node previous;
+            Node current = terminator;
             @Override
             public T next() {
-                T next = current.head;
+                previous = current;
                 current = current.tail;
-                return next;
+                return current.head;
             }
 
             @Override
             public boolean hasNext() {
-                return current != null;
+                return current.tail != null;
+            }
+
+            @Override
+            public void remove() {
+                previous.tail = current.tail;
+                current = previous;
             }
         };
     }
