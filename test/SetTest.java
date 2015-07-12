@@ -7,19 +7,21 @@ import java.util.Collection;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 @RunWith(Parameterized.class)
 public class SetTest {
     private final Set<String> structure;
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> testClasses() {
         return Arrays.asList(new Object[][]{
-                {(SetFactory) BinaryTree::newWithJavaNaturalComparator},
-                {(SetFactory) SetTest::newSetFromLinkedList},
-                {(SetFactory) SetTest::newSmallHashSet},
-                {(SetFactory) SetTest::newLargeHashSet}
+                {"BinaryTree", (SetFactory) BinaryTree::newWithJavaNaturalComparator},
+                {"LinkedList", (SetFactory) SetTest::newSetFromLinkedList},
+                {"Small HashSet", (SetFactory) SetTest::newSmallHashSet},
+                {"Large HashSet", (SetFactory) SetTest::newLargeHashSet}
         });
     }
 
@@ -117,7 +119,21 @@ public class SetTest {
         assertThat(structure.remove("c"), is("c"));
     }
 
-    public SetTest(SetFactory constructor) {
+    @SuppressWarnings("RedundantStringConstructorCall")
+    @Test
+    public void testDuplicatesOverwrite() throws Exception {
+        String key1 = new String("a");
+        String key2 = new String("a");
+        assertThat(key1, is(not(sameInstance(key2))));
+
+        structure.insert(key1);
+        assertThat(structure.insert(key2), is(sameInstance(key1)));
+
+        assertThat(structure.remove("a"), is(sameInstance(key2)));
+        assertThat(structure.lookup("a"), is(nullValue()));
+    }
+
+    public SetTest(String name, SetFactory constructor) {
         structure = constructor.create();
     }
 

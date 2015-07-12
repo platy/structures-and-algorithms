@@ -29,8 +29,8 @@ public class HashSet<T> implements Set<T> {
     }
 
     @Override
-    public void insert(T elem) {
-        getCollisionSetForElem(elem).insert(elem);
+    public T insert(T elem) {
+        return getCollisionSetForElem(elem).insert(elem);
     }
 
     private Set<T> getCollisionSetForElem(T elem) {

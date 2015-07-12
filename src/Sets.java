@@ -32,8 +32,10 @@ public class Sets {
             }
 
             @Override
-            public void insert(T elem) {
+            public T insert(T elem) {
+                T previous = remove(elem);
                 list.addFirst(elem);
+                return previous;
             }
         };
     }

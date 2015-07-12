@@ -7,6 +7,7 @@ import java.util.function.Function;
  * * The removal of a node with 2 children is solved by replacing it with its successor, a lot of removals around the
  * same region could unbalance the tree
  * * Doesn't correctly remove when there are equal keys in the tree
+ * * Allows equal entities so it isn't a set - but it is very close
  * @param <T>
  */
 public class BinaryTree<T> implements Set<T> {
@@ -39,12 +40,13 @@ public class BinaryTree<T> implements Set<T> {
     }
 
     @Override
-    public void insert(T elem) {
+    public T insert(T elem) {
         if (root == null) {
             root = new Node(elem);
         } else {
             root.insert(elem);
         }
+        return null; // doesn't replace - not really set
     }
 
     public static <T extends Comparable<T>> Set<T> newWithJavaNaturalComparator() {
