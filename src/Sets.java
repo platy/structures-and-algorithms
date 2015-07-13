@@ -4,6 +4,12 @@ public class Sets {
     public static <T> Set<T> newSetFromLinkedList(EqualityFunction<T> equalityFunction) {
         return new Set<T>(){
             LinkedList<T> list = new LinkedList<>();
+
+            @Override
+            public ForwardTraverser<T> traverser() {
+                return list.traverser();
+            }
+
             @Override
             public T lookup(T elem) {
                 ForwardTraverser<T> traverser = list.traverser();

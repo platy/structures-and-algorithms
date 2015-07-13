@@ -1,3 +1,5 @@
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.function.Function;
 
 /**
@@ -67,6 +69,11 @@ public class BinaryTree<T> implements Set<T> {
         } else {
             return root.findMax();
         }
+    }
+
+    @Override
+    public ForwardTraverser<T> traverser() {
+        throw new NotImplementedException();
     }
 
     private class Node {

@@ -6,9 +6,9 @@ public class HashSet<T> implements Set<T> {
 
     /**
      * @param numberOfBuckets Number of buckets used in the hashtable
-     * @param hasher function to generate hashes of our elements
-     * @param collisionSet constructor of Sets placed in the hash table to handle collisions, these should only take a
-     *                     few entries
+     * @param hasher          function to generate hashes of our elements
+     * @param collisionSet    constructor of Sets placed in the hash table to handle collisions, these should only take a
+     *                        few entries
      */
     HashSet(int numberOfBuckets, HashFunction<T> hasher, Supplier<Set<T>> collisionSet) {
         this.hasher = hasher;
@@ -35,5 +35,38 @@ public class HashSet<T> implements Set<T> {
 
     private Set<T> getCollisionSetForElem(T elem) {
         return table.get(Math.abs(hasher.hashcode(elem)) % table.length());
+    }
+
+    @Override
+    public ForwardTraverser<T> traverser() {
+        return new ForwardTraverser<T>() {
+            int nextBucketIndex = 0;
+            ForwardTraverser<T> currentSubTraverser;
+
+            @Override
+            public T next() {
+                if (hasNext()) {
+                    return currentSubTraverser.next();
+                }
+                return null;
+            }
+
+            @Override
+            public boolean hasNext() {
+                if (currentSubTraverser != null && currentSubTraverser.hasNext()) {
+                    return true;
+                } else if (nextBucketIndex < table.length()) {
+                    currentSubTraverser = table.get(nextBucketIndex++).traverser();
+                    return hasNext();
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public void remove() {
+                currentSubTraverser.remove();
+            }
+        };
     }
 }

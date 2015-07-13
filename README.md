@@ -113,3 +113,11 @@ be placed in / searched for in. Typically a hash is generated and the modulo of 
 Several entries could have the same hash and so some form of collision handling is necessary, a typical method is to 
 have a linked list in the bucket. Collisions slow the HashSet so ideally there wont be any, though making the hashtable
 large enough to avoid them causes memory to be wasted.
+
+
+## Adjacency list (Graph)
+
+A representation of a graph as a collection of unordered lists, each one representing a vertex in the graph, each list 
+describes the set of neighbours of the vertex. The OO adjacency list proposed by Goodrich and Tamassia consists of 
+Vertex objects which contain a collection of Edge objects, each of which has a pointer to both Vertices it connects. The
+object can also store extra information about the edge.
